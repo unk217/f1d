@@ -33,7 +33,7 @@ function App() {
   return (
     
     <>
-     <h1 className="font-bold uppercase">F1</h1>
+     <h1 className="text-slate-400 text-2xl font-bold uppercase flex justify-center p-5">F1 season 2023</h1>
     
     <Circuits/>
     

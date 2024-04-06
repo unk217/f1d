@@ -5,12 +5,12 @@ import CircuitCard from './CircuitCard';
 
 export function Circuits() {
 
-    const [circuit, setCircuit] = useState()
+    const [circuit, setCircuit] = useState([])
 
     useEffect(()=>{
       const loadAllcircuits=async()=>{
         try {
-          const apiUrl ='https://api.openf1.org/v1/sessions?session_name=Race&year=2023'
+          const apiUrl ='https://api.openf1.org/v1/meetings?year=2023'
           const res = await axios.get(apiUrl);
           setCircuit(res.data); 
           //console.log(res)
@@ -22,14 +22,19 @@ export function Circuits() {
       loadAllcircuits()
       
     },[])
-    console.log(circuit)
+    //console.log(circuit)
   return (
    
-    <div className="grid grid-cols-3 gap-3">
+    <div className="grid grid-cols-3 gap-3 text-white">
+     {/*
+     
+     */}
       {circuit.map(circuit=>(
-        <CircuitCard key={circuit.circuit_key} circuit={circuit}/>
-      ))}
+    <CircuitCard key={circuit.key} circuit={circuit}/>
+     ))} 
     </div>
+
+    
    
   )
 }

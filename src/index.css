@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 body {
-    background: #202020;
-    color: white;
+  @apply h-14 bg-gradient-to-r from-red-700 to-pink-950
+
   }
+ 
