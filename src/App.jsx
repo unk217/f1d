@@ -9,6 +9,7 @@ import Circuits from './components/Circuits';
 import Schedule from './components/Schedule';
 import CircuitCard from './components/CircuitCard';
 import DriverSt from './components/DriverSt';
+import NavBar from './components/NavBar';
 
 function App() {
   {/*
@@ -40,6 +41,9 @@ function App() {
      
     
     <BrowserRouter>
+
+    <NavBar/>
+
     <Routes>
       <Route path="/schedule" element={<Schedule/>}/>
       <Route path="/sch" element={<Circuits/>}/>
