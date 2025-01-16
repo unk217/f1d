@@ -2,7 +2,7 @@ import React, { useMemo, useState } from 'react';
 import axios from 'axios';
 import DynaTable from './DynaTable';
 
-function Sch() {
+function DriverSt() {
   const columns = useMemo(() => [
     {
       header: "Position",
@@ -27,11 +27,12 @@ function Sch() {
   ], []);
 
   const [year, setYear] = useState('');
-  const [schedule, setSchedule] = useState([]);
+  const [standings, setStandings] = useState([]);
+  const [season, setSeason] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const fetchSchedule = (year) => {
+  const fetchStandings = (year) => {
     setLoading(true);
     axios.get(`https://api.jolpi.ca/ergast/f1/${year}/driverstandings/`)
       .then(response => {
@@ -42,8 +43,11 @@ function Sch() {
           points: driver.points,
           wins: driver.wins,
         }));
-        setSchedule(standings);
+        setStandings(standings);
+        setSeason(response.data.MRData.StandingsTable.season);
         setError('');
+        console.log(response)
+        console.log(standings)
       })
       .catch(error => {
         setError('Error fetching data');
@@ -61,32 +65,34 @@ function Sch() {
   const handleSubmit = (event) => {
     event.preventDefault();
     if (year) {
-      fetchSchedule(year);
+      fetchStandings(year);
     } else {
       setError('Please enter a year');
     }
   };
-
+  console.log(season)
   return (
     <div>
+      <h1 className='text-slate-400 text-2xl font-bold uppercase flex justify-center p-5'>Season {season}</h1>
       <form className='flex justify-center' onSubmit={handleSubmit}>
         <input
-          className='flex justify-center'
+          className='flex justify-center mr-4 rounded-lg font-extrabold'
           type="text"
           placeholder="Enter year"
           value={year}
           onChange={handleInputChange}
         />
-        <button type="submit" disabled={loading}>
+        <button className='rounded-lg min-w-32 bg-indigo-500 hover:bg-indigo-400'
+        type="submit" disabled={loading}>
           {loading ? 'Loading...' : 'Get Standings'}
         </button>
       </form>
 
-      {error && <p>{error}</p>}
+      {error && <p className='flex justify-center p-3 text-slate-800 font-bold'>{error}</p>}
 
-      {schedule.length > 0 && <DynaTable columns={columns} data={schedule} />}
+      {standings.length > 0 && <DynaTable columns={columns} data={standings} />}
     </div>
   );
 }
 
-export default Sch;
+export default DriverSt;

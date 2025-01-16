@@ -27,7 +27,9 @@ export function Circuits() {
    
     <div className="grid grid-cols-3 gap-3 text-white">
      {/*
-     
+     {circuit.map(circuit=>(
+    <CircuitCard key={circuit.key} circuit={circuit}/>
+     ))} 
      */}
       {circuit.map(circuit=>(
     <CircuitCard key={circuit.key} circuit={circuit}/>

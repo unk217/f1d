@@ -1,84 +1,53 @@
-import React, { useMemo, useState } from 'react';
-import axios from 'axios';
-import DynaTable from './DynaTable';
+import axios from 'axios'
+import React, { useEffect, useState } from 'react'
+import SchCard from './SchCard'
 
 function Schedule() {
 
-    const columns = useMemo(()=>[
-        {
-            header: "GP Name",
-            accessorKey: "meeting_name",
-        },
-        {
-            header: "Country",
-            accessorKey: "country_name",
-        },
-        {
-            header: "Location",
-            accessorKey: "location",
-        },
-        {
-            header: "Circuit",
-            accessorKey: "circuit_short_name",
-        },
-        {
-            header: "Year",
-            accessorKey: "year",
-        }
-    ],[]);
+    const [schedule, setSchedule] = useState([])
 
-    const [year, setYear] = useState('');
-    const [schedule, setSchedule] = useState([]);
-    const [error, setError] = useState('');
-    const [loading, setLoading] = useState(false);
+    useEffect(()=>{
+        const loadSchedule=async()=>{
+            
+            
+            try{
+                const apiUrl = 'https://api.jolpi.ca/ergast/f1/2025/races/'
+                const res = await axios.get(apiUrl)
+                const schedule = res.data.MRData.RaceTable.Races.map(sch=>({
+                    rname: sch.raceName,
+                    circuit: sch.Circuit.circuitName,
+                    country: sch.Circuit.Location.country,
+                    date: sch.date,
+                    round: sch.round,
 
-    const fetchSchedule = (year) => {
-        setLoading(true);
-        axios.get(`https://api.openf1.org/v1/meetings?year=${year}`)
-        .then(response => {
-            setSchedule(response.data)
-            setError('')
-        })
-        .catch(error => {
-            setError('Error fetching data')
-            console,log(error)
-        })
-        .finally(()=>{
-            setLoading(false)
-        })
-    }
-
-    const handleInputChange = (event) => {
-        setYear(event.target.value)
-    }
-
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        if(year){
-            fetchSchedule(year)
-        } else {
-            setError('Please enter a year')
-        }
-    }
-    console.log(schedule)
-  return (
-    <div >
+                }))
+                setSchedule(schedule)
+                console.log(res)
+                
+                
+            }catch(error){
+                console.log("Error fetching data", error)
+            }
         
-      <form className='flex justify-center' onSubmit={handleSubmit} >
-        <input className='flex justify-center'
-          type="text"
-          placeholder="Enter year"
-          value={year}
-          onChange={handleInputChange}
-        />
-        <button type="submit" disabled={loading}>
-          {loading ? 'Loading...' : 'Get Schedule'}
-        </button>
-      </form>
+        }
+        loadSchedule()
+        
+    },[])
+    
+  return (
+    <div className='grid grid-cols-4 gap-3 p-8 justify-items-center'>
       
-      {error && <p>{error}</p>}
-      
-      {schedule.length > 0 && <DynaTable columns={columns} data={schedule} />}
+
+      {/*
+     {circuit.map(circuit=>(
+    <CircuitCard key={circuit.key} circuit={circuit}/>
+     ))} 
+
+     {schedule.length > 0 && <SchCard key={schedule.key} schedule={schedule}/>}
+     */}
+      {schedule.map(schedule=>(
+        <SchCard  schedule={schedule}/>
+      ))}
       
     </div>
   )

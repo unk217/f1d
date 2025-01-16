@@ -8,7 +8,7 @@ import MyComponent from './components/Drivers';
 import Circuits from './components/Circuits';
 import Schedule from './components/Schedule';
 import CircuitCard from './components/CircuitCard';
-import Sch from './components/Sch';
+import DriverSt from './components/DriverSt';
 
 function App() {
   {/*
@@ -29,21 +29,22 @@ function App() {
     Ld();
   }, []);
   console.log(data)
+
+
+  <h1 className="text-slate-400 text-2xl font-bold uppercase flex justify-center p-5">F1 season 2024</h1>
 */}
-
-
-
 
   return (
     
     <>
-     <h1 className="text-slate-400 text-2xl font-bold uppercase flex justify-center p-5">F1 season 2024</h1>
+     
     
     <BrowserRouter>
     <Routes>
       <Route path="/schedule" element={<Schedule/>}/>
       <Route path="/sch" element={<Circuits/>}/>
-      <Route path="/s" element ={<Sch/>}/>
+      <Route path="/drivers" element ={<DriverSt/>}/>
+      <Route path='/schedule' element={<Schedule/>}/>
     </Routes>
     </BrowserRouter>
     

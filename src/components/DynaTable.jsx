@@ -11,7 +11,7 @@ function DynaTable({columns, data}) {
     })
 
   return (
-    <div className='flex justify-center'>
+    <div className='flex justify-center py-3'>
       <table >
         <thead className='text-cyan-500 '>
             {table.getHeaderGroups().map(headerGroup=>(
