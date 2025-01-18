@@ -34,11 +34,11 @@ function RaceResults({ round }) {
   }
 
   return (
-    <div className="mt-8 p-4 bg-gray-100 rounded">
-      <h2 className="text-lg font-bold mb-4">Resultados de la carrera: {raceName}</h2>
+    <div className=" mt-8 p-4  rounded">
+      <h2 className="text-lg font-bold text-white mb-4">{raceName}</h2>
       <ul className="list-disc pl-6">
         {raceResults.map((result, index) => (
-          <li key={index}>
+          <li key={index} className='text-white'>
             {result.Driver.givenName} {result.Driver.familyName} - {result.position}° lugar
           </li>
         ))}

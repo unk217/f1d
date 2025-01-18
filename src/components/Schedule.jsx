@@ -1,10 +1,12 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import SchCard from './SchCard'
+import RaceResults from './RaceResults'
 
 function Schedule() {
 
     const [schedule, setSchedule] = useState([])
+    const [selectedRound, setSelectedRound] = useState(null);
 
     useEffect(()=>{
         const loadSchedule=async()=>{
@@ -34,15 +36,43 @@ function Schedule() {
         
     },[])
     
+    // Manejador de clic para seleccionar una carrera
+  const handleCardClick = (round) => {
+    setSelectedRound(round); // Establece la carrera seleccionada
+  }
+
+  // Manejador para volver al listado
+  const handleBackToSchedule = () => {
+    setSelectedRound(null); // Reinicia la selección
+  };
+
   return (
-    <div className='grid grid-cols-4 gap-3 p-8 justify-items-center'>
-      
-            {schedule.map(schedule=>(
-        <SchCard  schedule={schedule}/>
-      ))}
-      
+    <div className="p-4">
+      {!selectedRound ? (
+        // Mostrar las tarjetas si no hay una carrera seleccionada
+        <div className="grid grid-cols-4 gap-3 justify-items-center">
+          {schedule.map((sch) => (
+            <SchCard
+              key={sch.round}
+              schedule={sch}
+              onClick={() => handleCardClick(sch.round)}
+            />
+          ))}
+        </div>
+      ) : (
+        // Mostrar resultados de la carrera seleccionada
+        <div>
+          <button
+            className="mb-4 p-2 bg-blue-500 text-white rounded"
+            onClick={handleBackToSchedule}
+          >
+            Back to races
+          </button>
+          <RaceResults round={selectedRound} />
+        </div>
+      )}
     </div>
-  )
+  );
 }
 
 export default Schedule

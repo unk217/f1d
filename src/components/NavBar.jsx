@@ -9,7 +9,7 @@ const NavBar = ()=> {
         <li className='text-white font-bold'><Link to="/drivers">Drivers</Link></li>
         <li className='text-white font-bold'><Link to="/teams">Constructors</Link></li>
         <li className='text-white font-bold'><Link to="/schedule">Schedule</Link></li>
-        <li className='text-white font-bold'><Link to="/D">D</Link></li>
+        
       </ul>
     </nav>
   )
