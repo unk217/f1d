@@ -11,7 +11,7 @@ function Schedule() {
             
             
             try{
-                const apiUrl = 'https://api.jolpi.ca/ergast/f1/2025/races/'
+                const apiUrl = 'https://api.jolpi.ca/ergast/f1/2024/races/'
                 const res = await axios.get(apiUrl)
                 const schedule = res.data.MRData.RaceTable.Races.map(sch=>({
                     rname: sch.raceName,
@@ -37,15 +37,7 @@ function Schedule() {
   return (
     <div className='grid grid-cols-4 gap-3 p-8 justify-items-center'>
       
-
-      {/*
-     {circuit.map(circuit=>(
-    <CircuitCard key={circuit.key} circuit={circuit}/>
-     ))} 
-
-     {schedule.length > 0 && <SchCard key={schedule.key} schedule={schedule}/>}
-     */}
-      {schedule.map(schedule=>(
+            {schedule.map(schedule=>(
         <SchCard  schedule={schedule}/>
       ))}
       

@@ -13,6 +13,10 @@ function DriverSt() {
       accessorKey: "driverName",
     },
     {
+      header: "Nationality",
+      accessorKey: "national",
+    },
+    {
       header: "Team",
       accessorKey: "constructor",
     },
@@ -39,6 +43,7 @@ function DriverSt() {
         const standings = response.data.MRData.StandingsTable.StandingsLists[0].DriverStandings.map(driver => ({
           position: driver.position,
           driverName: `${driver.Driver.givenName} ${driver.Driver.familyName}`,
+          national: driver.Driver.nationality,
           constructor: driver.Constructors[0].name,
           points: driver.points,
           wins: driver.wins,
@@ -70,7 +75,7 @@ function DriverSt() {
       setError('Please enter a year');
     }
   };
-  console.log(season)
+  console.log(standings)
   return (
     <div>
       <h1 className='text-slate-400 text-2xl font-bold uppercase flex justify-center p-5'>Season {season}</h1>

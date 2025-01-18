@@ -11,8 +11,8 @@ function DynaTable({columns, data}) {
     })
 
   return (
-    <div className='flex justify-center py-3'>
-      <table >
+    <div className='flex justify-center py-3 '>
+      <table className='table-auto w-[80%]'>
         <thead className='text-cyan-500 '>
             {table.getHeaderGroups().map(headerGroup=>(
                 <tr key={headerGroup.id}>
@@ -28,7 +28,7 @@ function DynaTable({columns, data}) {
             {table.getRowModel().rows.map((row, rowIndex)=>(
                 <tr key={rowIndex} className='border-y-2 border-emerald-300'>
                     {row.getVisibleCells().map(cell=>(
-                        <td key={cell.id} className='py-2 text-rose-400'>
+                        <td key={cell.id} className='py-2 text-center text-rose-400'>
                             {flexRender(cell.column.columnDef.cell, cell.getContext())}
                         </td>
                     ))}
