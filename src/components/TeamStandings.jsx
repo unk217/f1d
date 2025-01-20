@@ -1,55 +1,64 @@
-import React, { useMemo, useState } from 'react';
-import axios from 'axios';
-import DynaTable from './DynaTable';
+import React, { useMemo, useState } from "react";
+import axios from "axios";
+import DynaTable from "./DynaTable";
+import { Input } from "./UI/Input";
 
 function TeamStandings() {
-  const columns = useMemo(() => [
-    {
-      header: "Position",
-      accessorKey: "position",
-  },
-  {
-    header: "Team",
-    accessorKey: "name",
-},
-{
-  header: "Nationality",
-  accessorKey: "nation",
-},
-{
-  header: "Points",
-  accessorKey: "points",
-},
-{
-  header: "Wins",
-  accessorKey: "wins",
-},
-  ], []);
+  const columns = useMemo(
+    () => [
+      {
+        header: "Position",
+        accessorKey: "position",
+      },
+      {
+        header: "Team",
+        accessorKey: "name",
+      },
+      {
+        header: "Nationality",
+        accessorKey: "nation",
+      },
+      {
+        header: "Points",
+        accessorKey: "points",
+      },
+      {
+        header: "Wins",
+        accessorKey: "wins",
+      },
+    ],
+    []
+  );
 
-  const [year, setYear] = useState('');
+  const [year, setYear] = useState("");
   const [standings, setStandings] = useState([]);
-  const [season, setSeason] = useState('');
-  const [error, setError] = useState('');
+  const [season, setSeason] = useState("");
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
   const fetchStandings = async (year) => {
     setLoading(true);
-    setError(''); // Resetear error al iniciar la solicitud
+    setError(""); // Resetear error al iniciar la solicitud
 
     try {
-      const res = await axios.get(`https://api.jolpi.ca/ergast/f1/${year}/constructorstandings/`)
-      const standings = res.data.MRData.StandingsTable.StandingsLists[0].ConstructorStandings.map(team=>({
-          position: team.position,
-          name: team.Constructor.name,
-          nation: team.Constructor.nationality,
-          points: team.points,
-          wins: team.wins
-      }));
-      console.log(res)
+      const res = await axios.get(
+        `https://api.jolpi.ca/ergast/f1/${year}/constructorstandings/`
+      );
+      const standings =
+        res.data.MRData.StandingsTable.StandingsLists[0].ConstructorStandings.map(
+          (team) => ({
+            position: team.position,
+            name: team.Constructor.name,
+            nation: team.Constructor.nationality,
+            points: team.points,
+            wins: team.wins,
+          })
+        );
+      console.log(res);
       setStandings(standings);
       //setSeason(res.data.MRData.StandingsTable.season); // Actualizar el estado de la temporada
     } catch (error) {
-      setError('Error fetching data');
+      setError("Error fetching data");
       console.error(error);
     } finally {
       setLoading(false); // Siempre desactiva el estado de carga
@@ -65,14 +74,17 @@ function TeamStandings() {
     if (year) {
       fetchStandings(year);
     } else {
-      setError('Please enter a year');
+      setError("Please enter a year");
     }
   };
 
   return (
     <div>
-      <h1 className='text-slate-400 text-2xl font-bold uppercase flex justify-center p-5'>Season {season}</h1>
-      <form className='flex justify-center' onSubmit={handleSubmit}>
+      <h1 className="text-slate-400 text-2xl font-bold uppercase flex justify-center p-5">
+        Season {season}
+      </h1>
+      <form className="flex justify-center" onSubmit={handleSubmit}>
+        {/*/
         <input
           className='flex justify-center mr-4 rounded-lg'
           type="text"
@@ -80,12 +92,19 @@ function TeamStandings() {
           value={year}
           onChange={handleInputChange}
         />
+        */}
+        <Input
+          type="text"
+          placeholder="Enter year"
+          value={year}
+          onChange={handleInputChange}
+        />
         <button
-          className='rounded-lg min-w-32 bg-indigo-500 hover:bg-indigo-400'
-          type="submit" 
+          className="rounded-lg min-w-32 bg-indigo-500 hover:bg-indigo-400"
+          type="submit"
           disabled={loading}
         >
-          {loading ? 'Loading...' : 'Get Constructors'}
+          {loading ? "Loading..." : "Get Constructors"}
         </button>
       </form>
 

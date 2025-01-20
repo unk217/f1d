@@ -63,7 +63,7 @@ function Schedule() {
         // Mostrar resultados de la carrera seleccionada
         <div>
           <button
-            className="mb-4 p-2 bg-blue-500 text-white rounded"
+            className="rounded-lg min-w-32 p-2 bg-blue-500 text-white font-bold hover:bg-cyan-800"
             onClick={handleBackToSchedule}
           >
             Back to races

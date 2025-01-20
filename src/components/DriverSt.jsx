@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import axios from 'axios';
 import DynaTable from './DynaTable';
+import { Input } from './UI';
 
 function DriverSt() {
   const columns = useMemo(() => [
@@ -80,8 +81,7 @@ function DriverSt() {
     <div>
       <h1 className='text-slate-400 text-2xl font-bold uppercase flex justify-center p-5'>Season {season}</h1>
       <form className='flex justify-center' onSubmit={handleSubmit}>
-        <input
-          className='flex justify-center mr-4 rounded-lg font-extrabold'
+        <Input
           type="text"
           placeholder="Enter year"
           value={year}
