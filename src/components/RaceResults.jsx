@@ -9,12 +9,13 @@ function RaceResults({ round }) {
   useEffect(() => {
     const fetchRaceResults = async () => {
       try {
-        const apiUrl = `https://api.jolpi.ca/ergast/f1/2024/${round}/results`;
+        const apiUrl = `${import.meta.env.VITE_BASE_URL}2024/${round}/results`;
         const res = await axios.get(apiUrl);
-
+        
         const raceData = res.data.MRData.RaceTable.Races[0];
         setRaceResults(raceData?.Results || []);
         setRaceName(raceData?.raceName || 'Unknown Race');
+        console.log(raceResults)
       } catch (error) {
         console.log('Error fetching race results', error);
       } finally {

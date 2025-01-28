@@ -1,45 +1,38 @@
-import axios from 'axios'
-import React, { useEffect, useState } from 'react'
-import SchCard from './SchCard'
-import RaceResults from './RaceResults'
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import SchCard from "./SchCard";
+import RaceResults from "./RaceResults";
 
 function Schedule() {
+  const year = 2025;
+  const [schedule, setSchedule] = useState([]);
+  const [selectedRound, setSelectedRound] = useState(null);
 
-    const [schedule, setSchedule] = useState([])
-    const [selectedRound, setSelectedRound] = useState(null);
+  useEffect(() => {
+    const loadSchedule = async () => {
+      try {
+        const apiUrl = `https://api.jolpi.ca/ergast/f1/${year}/races/`;
+        const res = await axios.get(apiUrl);
+        const schedule = res.data.MRData.RaceTable.Races.map((sch) => ({
+          rname: sch.raceName,
+          circuit: sch.Circuit.circuitName,
+          country: sch.Circuit.Location.country,
+          date: sch.date,
+          round: sch.round,
+        }));
+        setSchedule(schedule);
+        console.log(res);
+      } catch (error) {
+        console.log("Error fetching data", error);
+      }
+    };
+    loadSchedule();
+  }, []);
 
-    useEffect(()=>{
-        const loadSchedule=async()=>{
-            
-            
-            try{
-                const apiUrl = 'https://api.jolpi.ca/ergast/f1/2024/races/'
-                const res = await axios.get(apiUrl)
-                const schedule = res.data.MRData.RaceTable.Races.map(sch=>({
-                    rname: sch.raceName,
-                    circuit: sch.Circuit.circuitName,
-                    country: sch.Circuit.Location.country,
-                    date: sch.date,
-                    round: sch.round,
-
-                }))
-                setSchedule(schedule)
-                console.log(res)
-                
-                
-            }catch(error){
-                console.log("Error fetching data", error)
-            }
-        
-        }
-        loadSchedule()
-        
-    },[])
-    
-    // Manejador de clic para seleccionar una carrera
+  // Manejador de clic para seleccionar una carrera
   const handleCardClick = (round) => {
     setSelectedRound(round); // Establece la carrera seleccionada
-  }
+  };
 
   // Manejador para volver al listado
   const handleBackToSchedule = () => {
@@ -50,7 +43,7 @@ function Schedule() {
     <div className="p-4">
       {!selectedRound ? (
         // Mostrar las tarjetas si no hay una carrera seleccionada
-        <div className="grid grid-cols-4 gap-3 justify-items-center">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 justify-items-center">
           {schedule.map((sch) => (
             <SchCard
               key={sch.round}
@@ -68,11 +61,11 @@ function Schedule() {
           >
             Back to races
           </button>
-          <RaceResults round={selectedRound} />
+          <RaceResults round={selectedRound} year={year} />
         </div>
       )}
     </div>
   );
 }
 
-export default Schedule
+export default Schedule;

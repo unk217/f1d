@@ -39,7 +39,7 @@ function DriverSt() {
 
   const fetchStandings = (year) => {
     setLoading(true);
-    axios.get(`https://api.jolpi.ca/ergast/f1/${year}/driverstandings/`)
+    axios.get(`${import.meta.env.VITE_BASE_URL}${year}/driverstandings/`)
       .then(response => {
         const standings = response.data.MRData.StandingsTable.StandingsLists[0].DriverStandings.map(driver => ({
           position: driver.position,

@@ -42,7 +42,7 @@ function TeamStandings() {
 
     try {
       const res = await axios.get(
-        `https://api.jolpi.ca/ergast/f1/${year}/constructorstandings/`
+        `${import.meta.env.VITE_BASE_URL}${year}/constructorstandings/`
       );
       const standings =
         res.data.MRData.StandingsTable.StandingsLists[0].ConstructorStandings.map(
