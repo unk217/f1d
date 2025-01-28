@@ -100,7 +100,7 @@ function TeamStandings() {
           onChange={handleInputChange}
         />
         <button
-          className="rounded-lg min-w-32 bg-indigo-500 hover:bg-indigo-400"
+          className="rounded-lg font-bold min-w-32 bg-indigo-500 hover:bg-indigo-400"
           type="submit"
           disabled={loading}
         >

@@ -87,7 +87,7 @@ function DriverSt() {
           value={year}
           onChange={handleInputChange}
         />
-        <button className='rounded-lg min-w-32 bg-indigo-500 hover:bg-indigo-400'
+        <button className='rounded-lg font-bold min-w-32 bg-indigo-500 hover:bg-indigo-400'
         type="submit" disabled={loading}>
           {loading ? 'Loading...' : 'Get Standings'}
         </button>
