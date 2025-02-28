@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 body {
-  @apply h-14 bg-gradient-to-r from-red-700 to-pink-950
+  @apply h-40 bg-gradient-to-r from-slate-700 to-slate-900;
 
   }
  

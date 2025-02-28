@@ -26,9 +26,9 @@ function DynaTable({columns, data}) {
         </thead>
         <tbody className=''>
             {table.getRowModel().rows.map((row, rowIndex)=>(
-                <tr key={rowIndex} className='border-y-2 border-emerald-300'>
+                <tr key={rowIndex} className='border-y- border-sky-600'>
                     {row.getVisibleCells().map(cell=>(
-                        <td key={cell.id} className='py-2 text-center text-rose-400'>
+                        <td key={cell.id} className=' py-2 text-center text-indigo-200'>
                             {flexRender(cell.column.columnDef.cell, cell.getContext())}
                         </td>
                     ))}

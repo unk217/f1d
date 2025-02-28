@@ -11,7 +11,7 @@ function Schedule() {
   useEffect(() => {
     const loadSchedule = async () => {
       try {
-        const apiUrl = `https://api.jolpi.ca/ergast/f1/${year}/races/`;
+        const apiUrl = `${import.meta.env.VITE_BASE_URL}${year}/races/`;
         const res = await axios.get(apiUrl);
         const schedule = res.data.MRData.RaceTable.Races.map((sch) => ({
           rname: sch.raceName,
