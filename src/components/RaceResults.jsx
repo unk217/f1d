@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 
-function RaceResults({ round }) {
+function RaceResults({ round, year }) {
   const [raceResults, setRaceResults] = useState(null);
   const [raceName, setRaceName] = useState('');
   const [loading, setLoading] = useState(true);
@@ -9,9 +9,9 @@ function RaceResults({ round }) {
   useEffect(() => {
     const fetchRaceResults = async () => {
       try {
-        const apiUrl = `${import.meta.env.VITE_BASE_URL}2024/${round}/results`;
+        const apiUrl = `${import.meta.env.VITE_BASE_URL}${year}/${round}/results`;
         const res = await axios.get(apiUrl);
-        
+        console.log(res)
         const raceData = res.data.MRData.RaceTable.Races[0];
         setRaceResults(raceData?.Results || []);
         setRaceName(raceData?.raceName || 'Unknown Race');
@@ -44,6 +44,16 @@ function RaceResults({ round }) {
           </li>
         ))}
       </ul>
+{/*
+<div className="grid grid-cols-4 grid-rows-5 gap-3">
+    <div className="col-span-2 row-span-5 bg-slate-300">
+      1 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum totam ducimus officia, in nostrum, debitis architecto quibusdam non iste asperiores aperiam? Quia, corrupti itaque! Dolorum laborum vel totam facere natus?
+    </div>
+    <div className="col-span-2 row-span-3 col-start-3 bg-red-900 flex justify-center">
+      2 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Esse modi illum ad, placeat officiis quidem. Quasi, autem esse? Id sapiente quam minus ex consequuntur error ipsa officiis culpa rem aliquam?
+      </div>
+</div>
+    */}
     </div>
   );
 }

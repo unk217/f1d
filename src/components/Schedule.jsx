@@ -1,10 +1,11 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import Select from 'react-select'
 import SchCard from "./SchCard";
 import RaceResults from "./RaceResults";
 
 function Schedule() {
-  const year = 2025;
+  const year = 2021;
   const [schedule, setSchedule] = useState([]);
   const [selectedRound, setSelectedRound] = useState(null);
 
@@ -13,6 +14,7 @@ function Schedule() {
       try {
         const apiUrl = `${import.meta.env.VITE_BASE_URL}${year}/races/`;
         const res = await axios.get(apiUrl);
+        console.log(res)
         const schedule = res.data.MRData.RaceTable.Races.map((sch) => ({
           rname: sch.raceName,
           circuit: sch.Circuit.circuitName,
@@ -21,7 +23,7 @@ function Schedule() {
           round: sch.round,
         }));
         setSchedule(schedule);
-        console.log(res);
+        //console.log(res);
       } catch (error) {
         console.log("Error fetching data", error);
       }
@@ -38,9 +40,13 @@ function Schedule() {
   const handleBackToSchedule = () => {
     setSelectedRound(null); // Reinicia la selección
   };
+  const options=[
+    {value: 2020, label: 2020}
+  ]
 
   return (
     <div className="p-4">
+      <Select options={options}/>
       {!selectedRound ? (
         // Mostrar las tarjetas si no hay una carrera seleccionada
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 justify-items-center">
