@@ -1,20 +1,39 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import Select from 'react-select'
+import Select from "react-select";
 import SchCard from "./SchCard";
 import RaceResults from "./RaceResults";
 
 function Schedule() {
-  const year = 2021;
+  const year = 2006;
+  const [seasons, setSeasons] = useState([]);
   const [schedule, setSchedule] = useState([]);
   const [selectedRound, setSelectedRound] = useState(null);
+
+  useEffect(() => {
+    const seasons = async () => {
+      try {
+        const apiUrls = `${import.meta.env.VITE_BASE_URL}seasons/?limit=80`;
+        const res = await axios.get(apiUrls);
+        console.log(res)
+        
+        const seasons = res.data.MRData.SeasonTable.Seasons.map((season)=>({
+          year: season.season,
+        }))
+        setSeasons(seasons)
+      } catch (error) {
+        console.log("error data", error);
+      }
+    };
+    seasons()
+  },[]);
 
   useEffect(() => {
     const loadSchedule = async () => {
       try {
         const apiUrl = `${import.meta.env.VITE_BASE_URL}${year}/races/`;
         const res = await axios.get(apiUrl);
-        console.log(res)
+        console.log(res);
         const schedule = res.data.MRData.RaceTable.Races.map((sch) => ({
           rname: sch.raceName,
           circuit: sch.Circuit.circuitName,
@@ -40,13 +59,11 @@ function Schedule() {
   const handleBackToSchedule = () => {
     setSelectedRound(null); // Reinicia la selección
   };
-  const options=[
-    {value: 2020, label: 2020}
-  ]
+  const options = [{ value: 2020, label: 2020 }];
 
   return (
     <div className="p-4">
-      <Select options={options}/>
+      <Select options={seasons.map((i)=>({label: i.year, value: i.year}))} />
       {!selectedRound ? (
         // Mostrar las tarjetas si no hay una carrera seleccionada
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 justify-items-center">
