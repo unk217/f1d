@@ -5,35 +5,37 @@ import SchCard from "./SchCard";
 import RaceResults from "./RaceResults";
 
 function Schedule() {
-  const year = 2006;
   const [seasons, setSeasons] = useState([]);
   const [schedule, setSchedule] = useState([]);
   const [selectedRound, setSelectedRound] = useState(null);
+  const [selectedYear, setSelectedYear] = useState(2024); // Estado para el año seleccionado
 
   useEffect(() => {
-    const seasons = async () => {
+    const fetchSeasons = async () => {
       try {
         const apiUrls = `${import.meta.env.VITE_BASE_URL}seasons/?limit=80`;
         const res = await axios.get(apiUrls);
-        console.log(res)
         
-        const seasons = res.data.MRData.SeasonTable.Seasons.map((season)=>({
-          year: season.season,
+        const seasons = res.data.MRData.SeasonTable.Seasons.map((season) => ({
+          value: parseInt(season.season),
+          label: season.season,
         }))
-        setSeasons(seasons)
+        .sort((a, b) => b.value - a.value); // Ordenar de forma descendente
+
+        setSeasons(seasons);
       } catch (error) {
-        console.log("error data", error);
+        console.log("Error fetching seasons", error);
       }
     };
-    seasons()
-  },[]);
+    fetchSeasons();
+  }, []);
 
   useEffect(() => {
     const loadSchedule = async () => {
       try {
-        const apiUrl = `${import.meta.env.VITE_BASE_URL}${year}/races/`;
+        const apiUrl = `${import.meta.env.VITE_BASE_URL}${selectedYear}/races/`;
         const res = await axios.get(apiUrl);
-        console.log(res);
+        
         const schedule = res.data.MRData.RaceTable.Races.map((sch) => ({
           rname: sch.raceName,
           circuit: sch.Circuit.circuitName,
@@ -41,50 +43,47 @@ function Schedule() {
           date: sch.date,
           round: sch.round,
         }));
+
         setSchedule(schedule);
-        //console.log(res);
       } catch (error) {
         console.log("Error fetching data", error);
       }
     };
+
     loadSchedule();
-  }, []);
+  }, [selectedYear]); // Se ejecuta cada vez que cambia el año seleccionado
 
-  // Manejador de clic para seleccionar una carrera
-  const handleCardClick = (round) => {
-    setSelectedRound(round); // Establece la carrera seleccionada
+  const handleYearChange = (selectedOption) => {
+    setSelectedYear(selectedOption.value);
   };
-
-  // Manejador para volver al listado
-  const handleBackToSchedule = () => {
-    setSelectedRound(null); // Reinicia la selección
-  };
-  const options = [{ value: 2020, label: 2020 }];
 
   return (
     <div className="p-4">
-      <Select options={seasons.map((i)=>({label: i.year, value: i.year}))} />
+      <Select
+        options={seasons}
+        value={seasons.find((s) => s.value === selectedYear)}
+        onChange={handleYearChange}
+      />
+      
       {!selectedRound ? (
-        // Mostrar las tarjetas si no hay una carrera seleccionada
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 justify-items-center">
           {schedule.map((sch) => (
             <SchCard
               key={sch.round}
               schedule={sch}
-              onClick={() => handleCardClick(sch.round)}
+              onClick={() => setSelectedRound(sch.round)}
             />
           ))}
         </div>
       ) : (
-        // Mostrar resultados de la carrera seleccionada
         <div>
           <button
             className="rounded-lg min-w-32 p-2 bg-blue-500 text-white font-bold hover:bg-cyan-800"
-            onClick={handleBackToSchedule}
+            onClick={() => setSelectedRound(null)}
           >
             Back to races
           </button>
-          <RaceResults round={selectedRound} year={year} />
+          <RaceResults round={selectedRound} year={selectedYear} />
         </div>
       )}
     </div>
