@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import Select from "react-select";
 import SchCard from "./SchCard";
 import RaceResults from "./RaceResults";
+import MySelect from "./MySelect";
 
 function Schedule() {
   const [seasons, setSeasons] = useState([]);
@@ -15,12 +16,11 @@ function Schedule() {
       try {
         const apiUrls = `${import.meta.env.VITE_BASE_URL}seasons/?limit=80`;
         const res = await axios.get(apiUrls);
-        
+
         const seasons = res.data.MRData.SeasonTable.Seasons.map((season) => ({
           value: parseInt(season.season),
           label: season.season,
-        }))
-        .sort((a, b) => b.value - a.value); // Ordenar de forma descendente
+        })).sort((a, b) => b.value - a.value); // Ordenar de forma descendente
 
         setSeasons(seasons);
       } catch (error) {
@@ -35,7 +35,7 @@ function Schedule() {
       try {
         const apiUrl = `${import.meta.env.VITE_BASE_URL}${selectedYear}/races/`;
         const res = await axios.get(apiUrl);
-        
+
         const schedule = res.data.MRData.RaceTable.Races.map((sch) => ({
           rname: sch.raceName,
           circuit: sch.Circuit.circuitName,
@@ -59,12 +59,15 @@ function Schedule() {
 
   return (
     <div className="p-4">
-      <Select
+      <div className="flex justify-start    p-3 bg font-bold">
+        <h1 className="text-xl px-2 text-zinc-200">Select season</h1>
+      <MySelect 
         options={seasons}
         value={seasons.find((s) => s.value === selectedYear)}
         onChange={handleYearChange}
       />
-      
+      </div>
+
       {!selectedRound ? (
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 justify-items-center">
           {schedule.map((sch) => (

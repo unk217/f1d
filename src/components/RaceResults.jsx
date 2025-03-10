@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 function RaceResults({ round, year }) {
   const [raceResults, setRaceResults] = useState(null);
   const [raceName, setRaceName] = useState('');
+  const [country, setCountry] = useState('')
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -15,7 +16,8 @@ function RaceResults({ round, year }) {
         const raceData = res.data.MRData.RaceTable.Races[0];
         setRaceResults(raceData?.Results || []);
         setRaceName(raceData?.raceName || 'Unknown Race');
-        console.log(raceResults)
+        setCountry(raceData.Circuit.Location.country || 'Circuit not found')
+        console.log(country)
       } catch (error) {
         console.log('Error fetching race results', error);
       } finally {
@@ -44,6 +46,9 @@ function RaceResults({ round, year }) {
           </li>
         ))}
       </ul>
+      <div>
+        <img src={`https://media.formula1.com/image/upload/f_auto,c_limit,q_auto,w_1320/content/dam/fom-website/2018-redesign-assets/Circuit%20maps%2016x9/${country}_Circuit`} alt="" />
+      </div>
 {/*
 <div className="grid grid-cols-4 grid-rows-5 gap-3">
     <div className="col-span-2 row-span-5 bg-slate-300">

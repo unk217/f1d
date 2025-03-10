@@ -9,7 +9,7 @@ function SchCard({schedule, onClick}) {
       <h1 className="font-bold uppercase text-slate-200">{schedule.rname}</h1>
       <h1 className="text-teal-200">Country: {schedule.country}</h1>
       <h1 className="italic text-amber-200">Circuit: {schedule.circuit}</h1>
-        <h1 className='italic text-slate-400'>Race date: {schedule.date}</h1>
+        <h1 className='italic text-slate-400'>Date: {schedule.date}</h1>
         <h1 className='italic text-zinc-300'>Round: {schedule.round}</h1>
     </div>
   )

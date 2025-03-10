@@ -10,6 +10,13 @@ function DriverSt() {
       accessorKey: "position",
     },
     {
+      header: "Photo",
+      accessorKey: "photo",
+      Cell: ({ cell }) => (
+        <img src={cell.getValue()} alt="Driver" style={{ width: '50px', height: 'auto' }} />
+      ),
+    },
+    {
       header: "Driver",
       accessorKey: "driverName",
     },
@@ -43,6 +50,7 @@ function DriverSt() {
       .then(response => {
         const standings = response.data.MRData.StandingsTable.StandingsLists[0].DriverStandings.map(driver => ({
           position: driver.position,
+          photo: `https://media.formula1.com/image/upload/f_auto,c_limit,q_auto,w_1320/content/dam/fom-website/drivers/${response.data.MRData.StandingsTable.season}Drivers/${driver.Driver.familyName}`,
           driverName: `${driver.Driver.givenName} ${driver.Driver.familyName}`,
           national: driver.Driver.nationality,
           constructor: driver.Constructors[0].name,

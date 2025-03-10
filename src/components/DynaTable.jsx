@@ -29,7 +29,12 @@ function DynaTable({columns, data}) {
                 <tr key={rowIndex} className='border-y- border-sky-600'>
                     {row.getVisibleCells().map(cell=>(
                         <td key={cell.id} className=' py-2 text-center text-indigo-200'>
-                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                            {cell.column.id === "photo" ? (
+                    // Verifica si la celda es una URL de imagen y renderízala
+                    <img src={cell.getValue()} alt="Driver" style={{ width: '50px', height: 'auto' }} />
+                  ) : (
+                    flexRender(cell.column.columnDef.cell, cell.getContext()) // De lo contrario, renderiza el valor por defecto
+                  )}
                         </td>
                     ))}
                 </tr>
