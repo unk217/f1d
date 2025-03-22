@@ -53,8 +53,8 @@ function RaceResults({ round, year }) {
       <div>
       </div>
 
-<div className="grid grid-cols-4 grid-rows-5 gap-3">
-    <div className="col-span-2 row-span-5">
+<div className="lg:grid grid-cols-4 grid-rows-2 gap-3">
+    <div className="col-span-2 row-span-2">
     <table>
         <thead>
           <tr>
