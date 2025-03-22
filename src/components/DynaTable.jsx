@@ -28,10 +28,10 @@ function DynaTable({columns, data}) {
             {table.getRowModel().rows.map((row, rowIndex)=>(
                 <tr key={rowIndex} className='border-y- border-sky-600'>
                     {row.getVisibleCells().map(cell=>(
-                        <td key={cell.id} className=' py-2 text-center text-indigo-200'>
+                        <td key={cell.id} className=' py-2 text-center text-indigo-200 '>
                             {cell.column.id === "photo" ? (
                     // Verifica si la celda es una URL de imagen y renderízala
-                    <img src={cell.getValue()} alt="Driver" style={{ width: '50px', height: 'auto' }} />
+                    <img src={cell.getValue()} alt="Driver" className="w-15 h-15 mr-4 rounded-full" />
                   ) : (
                     flexRender(cell.column.columnDef.cell, cell.getContext()) // De lo contrario, renderiza el valor por defecto
                   )}
