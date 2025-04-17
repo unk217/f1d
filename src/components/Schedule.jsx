@@ -4,12 +4,15 @@ import Select from "react-select";
 import SchCard from "./SchCard";
 import RaceResults from "./RaceResults";
 import MySelect from "./MySelect";
+import QualifyingResults from "./QualifyingResults";
 
 function Schedule() {
   const [seasons, setSeasons] = useState([]);
   const [schedule, setSchedule] = useState([]);
   const [selectedRound, setSelectedRound] = useState(null);
   const [selectedYear, setSelectedYear] = useState(2024); // Estado para el año seleccionado
+
+  const [viewMode, setViewMode] = useState(null); 
 
   useEffect(() => {
     const fetchSeasons = async () => {
@@ -61,11 +64,11 @@ function Schedule() {
     <div className="p-4">
       <div className="flex justify-start    p-3 bg font-bold">
         <h1 className="text-xl px-2 text-zinc-200">Select season</h1>
-      <MySelect 
-        options={seasons}
-        value={seasons.find((s) => s.value === selectedYear)}
-        onChange={handleYearChange}
-      />
+        <MySelect
+          options={seasons}
+          value={seasons.find((s) => s.value === selectedYear)}
+          onChange={handleYearChange}
+        />
       </div>
 
       {!selectedRound ? (
@@ -80,14 +83,39 @@ function Schedule() {
         </div>
       ) : (
         <div>
-          <button
-            className="rounded-lg min-w-32 p-2 bg-blue-500 text-white font-bold hover:bg-cyan-800"
-            onClick={() => setSelectedRound(null)}
-          >
-            Back to races
-          </button>
-          <RaceResults round={selectedRound} year={selectedYear} />
-        </div>
+  <button
+    className="rounded-lg min-w-32 p-2 bg-blue-500 text-white font-bold hover:bg-cyan-800"
+    onClick={() => {
+      setSelectedRound(null);
+      setViewMode(null);
+    }}
+  >
+    Back to races
+  </button>
+
+  <button
+    className="rounded-lg min-w-32 p-2 bg-blue-500 text-white font-bold hover:bg-cyan-800 ml-2"
+    onClick={() => setViewMode("qualifying")}
+  >
+    Qualifying
+  </button>
+
+  <button
+    className="rounded-lg min-w-32 p-2 bg-blue-500 text-white font-bold hover:bg-cyan-800 ml-2"
+    onClick={() => setViewMode("race")}
+  >
+    Race
+  </button>
+
+  {viewMode === "qualifying" && (
+    <QualifyingResults round={selectedRound} year={selectedYear} />
+  )}
+
+  {viewMode === "race" && (
+    <RaceResults round={selectedRound} year={selectedYear} />
+  )}
+</div>
+
       )}
     </div>
   );
