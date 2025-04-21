@@ -12,10 +12,11 @@ function DynaTable({columns, data}) {
 
   return (
     <div className='flex justify-center py-3 '>
-      <table className='table-auto w-[80%]'>
+      <table className='table-auto w-[80%] lg:py-1  border-separate border-spacing-1 border border-red-400'>
+        
         <thead className='text-cyan-500 '>
             {table.getHeaderGroups().map(headerGroup=>(
-                <tr key={headerGroup.id}>
+                <tr key={headerGroup.id} className='bg-cyan-900'>
                     {headerGroup.headers.map((header)=>(
                         <th key={header.id}>
                             {header.column.columnDef.header }
@@ -26,7 +27,7 @@ function DynaTable({columns, data}) {
         </thead>
         <tbody className=''>
             {table.getRowModel().rows.map((row, rowIndex)=>(
-                <tr key={rowIndex} className='border-y- border-sky-600'>
+                <tr key={rowIndex} className='border-y- border-sky-900'>
                     {row.getVisibleCells().map(cell=>(
                         <td key={cell.id} className=' py-2 text-center text-indigo-200 '>
                             {["photo", "flag"].includes(cell.column.id) ? (

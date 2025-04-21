@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { Td } from './UI';
 
 function RaceResults({ round, year }) {
   const [raceResults, setRaceResults] = useState(null);
@@ -40,36 +41,27 @@ function RaceResults({ round, year }) {
 
   return (
     <div className=" mt-8 p-4  rounded">
-      <h2 className="text-lg font-bold text-white mb-4">{raceName}</h2>
-      
-     {/* <ul className="list-disc pl-6">
-        {raceResults.map((result, index) => (
-          <li key={index} className='text-white'>
-            {result.Driver.givenName} {result.Driver.familyName} - {result.position}° lugar
-          </li>
-        ))}
-      </ul>
-      */}
+      <h2 className="text-lg font-bold text-white mb-4">{raceName} - Race</h2>
       <div>
       </div>
 
-<div className="lg:grid grid-cols-4 grid-rows-2 gap-3">
-    <div className="col-span-2 row-span-2">
-    <table>
+<div className="lg:grid grid-cols-4 grid-rows-2 gap-3 ">
+    <div className="col-span-2 row-span-2 overflow-x-auto">
+    <table className='table-auto w-full border-collapse'>
         <thead>
-          <tr>
-            <th className="text-white">Posición</th>
-            <th className="text-white">Piloto</th>
-            <th className="text-white">Constructor</th>
-            <th className="text-white">Tiempo</th>
+          <tr className='bg-cyan-600'>
+            <th className="text-white">Position</th>
+            <th className="text-white">Driver</th>
+            <th className="text-white">Team</th>
+            <th className="text-white">Time</th>
             <th className="text-white">Status</th>
           </tr>
         </thead>
         <tbody>
           {raceResults.map((result, index) => (
-            <tr key={index} className="text-white">
+            <tr key={index} className="text-white text-sm border-b border-gray-600">
               <td className="text-center">{result.position}</td>
-              <td className="flex items-center">
+              <td className="py-1 flex items-center">
                 <img
                   src={`https://media.formula1.com/image/upload/f_auto,c_limit,q_auto,w_1320/content/dam/fom-website/drivers/${year}Drivers/${result.Driver.familyName}`}
                   alt={result.Driver.givenName}
@@ -77,9 +69,9 @@ function RaceResults({ round, year }) {
                 />
                 {result.Driver.familyName}
               </td>
-              <td>{result.Constructor.name}</td>
-              <td>{result.Time?.time || 'No time'}</td>
-              <td>{result.status}</td>
+              <Td className="px-10">{result.Constructor.name}</Td>
+              <Td>{result.Time?.time || 'No time'}</Td>
+              <Td>{result.status}</Td>
             </tr>
           ))}
         </tbody>

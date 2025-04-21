@@ -10,7 +10,7 @@ function Schedule() {
   const [seasons, setSeasons] = useState([]);
   const [schedule, setSchedule] = useState([]);
   const [selectedRound, setSelectedRound] = useState(null);
-  const [selectedYear, setSelectedYear] = useState(2024); // Estado para el año seleccionado
+  const [selectedYear, setSelectedYear] = useState(2025); // Estado para el año seleccionado
 
   const [viewMode, setViewMode] = useState(null); 
 
