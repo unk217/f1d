@@ -127,7 +127,7 @@ function Schedule() {
       </div>
 
       {!selectedRound ? (
-        <div className= "grid grid-cols-1 lg:grid-cols-2 gap-3 justify-items-center">
+        <div className= "grid grid-cols-1 lg:grid-cols-4 md:grid-cols-2 xl:grid-cols-3 gap-3 justify-items-center">
           {schedule.map((sch) => (
             <SchCard
               key={sch.round}
