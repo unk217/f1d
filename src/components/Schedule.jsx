@@ -138,8 +138,9 @@ function Schedule() {
         </div>
       ) : (
         <div>
-          <button
-            className="rounded-lg min-w-32 p-2 bg-blue-500 text-white font-bold hover:bg-cyan-800"
+         <div className="flex justify-center lg:justify-start sm:justify-start">
+         <button
+            className="rounded-lg min-w-32 p-2 bg-red-500 text-white font-bold hover:bg-cyan-800"
             onClick={() => {
               setSelectedRound(null);
               setViewMode(null);
@@ -161,6 +162,7 @@ function Schedule() {
           >
             Race
           </button>
+         </div>
 
           {viewMode === "qualifying" && (
             <QualifyingResults round={selectedRound} year={selectedYear} />

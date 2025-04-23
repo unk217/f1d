@@ -1,6 +1,5 @@
 import React from "react";
-import { H1, SpanTitle, LiCard } from "./UI";
-
+import { H1, SpanTitle, LiCard, Span } from "./UI";
 
 function SchCard({ schedule, onClick }) {
   /*  console.log(schedule) */
@@ -12,38 +11,54 @@ function SchCard({ schedule, onClick }) {
     >
       <ul className="flex flex-col gap-2">
         <LiCard>
-        <h1 className="font-bold uppercase text-slate-200">{schedule.rname}</h1>
+          <h1 className="font-bold uppercase text-slate-200">
+            {schedule.rname}
+          </h1>
         </LiCard>
         <LiCard>
-          <span className="font-bold text-gray-400">Country:</span>
+          <Span className="font-bold text-gray-400">Country:</Span>
           <SpanTitle>{schedule.country}</SpanTitle>
         </LiCard>
         <LiCard>
-          <span className="font-bold text-gray-400">Circuit:</span>
+          <Span className="font-bold text-gray-400">Circuit:</Span>
           <SpanTitle>{schedule.circuit}</SpanTitle>
         </LiCard>
         <LiCard>
-          <span className="font-bold text-gray-400">FirtsPractice</span>
-          <SpanTitle>{schedule.firstPracticeDate}, {schedule.firstPracticeTime}</SpanTitle>
+          <Span className="font-bold text-gray-400">FirtsPractice</Span>
+          <SpanTitle>
+            {schedule.firstPracticeDate}, {schedule.firstPracticeTime}
+          </SpanTitle>
         </LiCard>
         <LiCard>
-          <span className="font-bold text-gray-400">{schedule.secondPracticeType}</span>
-          <SpanTitle>{schedule.secondPracticeDate}, {schedule.secondPracticeTime}</SpanTitle>
+          <Span className="font-bold text-gray-400">
+            {schedule.secondPracticeType}
+          </Span>
+          <SpanTitle>
+            {schedule.secondPracticeDate}, {schedule.secondPracticeTime}
+          </SpanTitle>
         </LiCard>
         <LiCard>
-          <span className="font-bold text-gray-400">{schedule.thirdPracticeType}</span>
-          <SpanTitle>{schedule.thirdPracticeDate}, {schedule.thirdPracticeTime}</SpanTitle>
+          <Span className="font-bold text-gray-400">
+            {schedule.thirdPracticeType}
+          </Span>
+          <SpanTitle>
+            {schedule.thirdPracticeDate}, {schedule.thirdPracticeTime}
+          </SpanTitle>
         </LiCard>
         <LiCard>
-          <span className="font-bold text-gray-400">Qualifying</span>
-          <SpanTitle>{schedule.qualifyingDate}, {schedule.qualifyingTime}</SpanTitle>
+          <Span className="font-bold text-gray-400">Qualifying</Span>
+          <SpanTitle>
+            {schedule.qualifyingDate}, {schedule.qualifyingTime}
+          </SpanTitle>
         </LiCard>
         <LiCard>
-          <span className="font-bold text-gray-400">Race</span>
-          <SpanTitle>{schedule.raceDate}, {schedule.raceTime}</SpanTitle>
+          <Span className="font-bold text-gray-400">Race</Span>
+          <SpanTitle>
+            {schedule.raceDate}, {schedule.raceTime}
+          </SpanTitle>
         </LiCard>
         <LiCard>
-          <span className="font-bold text-gray-400">Round</span>
+          <Span className="font-bold text-gray-400">Round</Span>
           <SpanTitle>{schedule.round}</SpanTitle>
         </LiCard>
       </ul>
