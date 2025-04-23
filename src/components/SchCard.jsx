@@ -62,15 +62,6 @@ function SchCard({ schedule, onClick }) {
           <SpanTitle>{schedule.round}</SpanTitle>
         </LiCard>
       </ul>
-      {/* <h1 className="font-bold uppercase text-slate-200">{schedule.rname}</h1>
-      <h1 className="text-teal-200">Country: {schedule.country}</h1>
-      <h1 className="italic text-amber-200">Circuit: {schedule.circuit}</h1>
-        <H1>FirstPractice: {schedule.firstPracticeDate}, {schedule.firstPracticeTime}</H1>
-        <H1>{schedule.secondPracticeType}: {schedule.secondPracticeDate}, {schedule.secondPracticeTime}</H1>
-        <H1>{schedule.thirdPracticeType}: {schedule.thirdPracticeDate}, {schedule.thirdPracticeTime}</H1>
-        <H1>Qualifying: {schedule.qualifyingDate}, {schedule.qualifyingTime}</H1>
-        <H1>Race: {schedule.raceDate}, {schedule.raceTime}</H1>
-        <h1 className='italic font-bold text-slate-400'>Round: {schedule.round}</h1> */}
     </div>
   );
 }
