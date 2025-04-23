@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Td } from "./UI";
+import { LiCard, Span, Td } from "./UI";
 
 function RaceResults({ round, year }) {
   const [raceResults, setRaceResults] = useState(null);
@@ -63,8 +63,8 @@ function RaceResults({ round, year }) {
     <div className="mt-8 p-4 rounded">
       <h2 className="text-lg font-bold text-white mb-4">{raceName} - Race</h2>
 
-      <div className="lg:grid grid-cols-4 grid-rows-2 gap-3">
-        <div className="col-span-2 row-span-2 overflow-x-auto">
+      <div className="lg:grid grid-cols-4 grid-rows-2 gap-3 overflow-x-auto">
+        <div className="col-span-2 row-span-2 ">
           <table className="table-auto w-full border-collapse">
             <thead>
               <tr className="bg-cyan-600">
@@ -79,7 +79,7 @@ function RaceResults({ round, year }) {
               {raceResults.map((result, index) => (
                 <tr
                   key={index}
-                  className="text-white text-sm border-b border-gray-600"
+                  className=" text-white text-sm border-b border-gray-600 "
                 >
                   <td className="text-center">{result.position}</td>
                   <td className="py-1 flex items-center">
@@ -90,7 +90,7 @@ function RaceResults({ round, year }) {
                     />
                     {result.Driver.familyName}
                   </td>
-                  <Td>{result.Constructor.name}</Td>
+                  <Td className='px-12 '>{result.Constructor.name}</Td>
                   <Td>{result.Time?.time || "No time"}</Td>
                   <Td>{result.status}</Td>
                 </tr>
@@ -115,17 +115,32 @@ function RaceResults({ round, year }) {
               </div>
             </li>
             {fastestLap && (
-              <li className="mt-4 text-white text-sm text-center">
-                <p>
+              <ul className="pl-20 w-[80%] justify-center">
+                <LiCard>
+                  <Span>FastestLap: </Span>
+                  <Span>{fastestLap.driver}</Span>
+                </LiCard>
+                <LiCard>
+                  <Span>Time: </Span>
+                  <Span>{fastestLap.lapTime}</Span>
+                </LiCard>
+                <LiCard>
+                  <Span>Lap </Span>
+                  <Span>{fastestLap.lap}</Span>
+                </LiCard>
+                
+              </ul>
+              /* <li className="mt-4 text-white text-sm text-center">
+                <p className="font-bold">
                   <strong>Fastest Lap:</strong> {fastestLap.driver}
                 </p>
-                <p>
+                <p className="font-bold">
                   <strong>Time:</strong> {fastestLap.lapTime}
                 </p>
-                <p>
+                <p className="font-bold">
                   <strong>Lap:</strong> {fastestLap.lap}
                 </p>
-              </li>
+              </li> */
             )}
           </ul>
         </div>

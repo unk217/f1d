@@ -16,21 +16,21 @@ function SchCard({ schedule, onClick }) {
           </h1>
         </LiCard>
         <LiCard>
-          <Span className="font-bold text-gray-400">Country:</Span>
+          <Span  >Country:</Span>
           <SpanTitle>{schedule.country}</SpanTitle>
         </LiCard>
         <LiCard>
-          <Span className="font-bold text-gray-400">Circuit:</Span>
+          <Span  >Circuit:</Span>
           <SpanTitle>{schedule.circuit}</SpanTitle>
         </LiCard>
         <LiCard>
-          <Span className="font-bold text-gray-400">FirtsPractice</Span>
+          <Span  >FirtsPractice</Span>
           <SpanTitle>
             {schedule.firstPracticeDate}, {schedule.firstPracticeTime}
           </SpanTitle>
         </LiCard>
         <LiCard>
-          <Span className="font-bold text-gray-400">
+          <Span >
             {schedule.secondPracticeType}
           </Span>
           <SpanTitle>
@@ -38,7 +38,7 @@ function SchCard({ schedule, onClick }) {
           </SpanTitle>
         </LiCard>
         <LiCard>
-          <Span className="font-bold text-gray-400">
+          <Span  >
             {schedule.thirdPracticeType}
           </Span>
           <SpanTitle>
@@ -46,19 +46,19 @@ function SchCard({ schedule, onClick }) {
           </SpanTitle>
         </LiCard>
         <LiCard>
-          <Span className="font-bold text-gray-400">Qualifying</Span>
+          <Span  >Qualifying</Span>
           <SpanTitle>
             {schedule.qualifyingDate}, {schedule.qualifyingTime}
           </SpanTitle>
         </LiCard>
         <LiCard>
-          <Span className="font-bold text-gray-400">Race</Span>
+          <Span  >Race</Span>
           <SpanTitle>
             {schedule.raceDate}, {schedule.raceTime}
           </SpanTitle>
         </LiCard>
         <LiCard>
-          <Span className="font-bold text-gray-400">Round</Span>
+          <Span  >Round</Span>
           <SpanTitle>{schedule.round}</SpanTitle>
         </LiCard>
       </ul>
