@@ -32,11 +32,11 @@ function QualifyingResults({ round, year }) {
   }, [round]);
 
   if (loading) {
-    return <p>Loading race results...</p>;
+    return <p className="text-white font-semibold">Loading race results...</p>;
   }
 
   if (!raceResults || raceResults.length === 0) {
-    return <p>No results found for this race.</p>;
+    return <p className="text-white font-semibold">No results found for this race.</p>;
   }
 
   return (
