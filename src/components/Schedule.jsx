@@ -59,12 +59,15 @@ function Schedule() {
 
         const schedule = res.data.MRData.RaceTable.Races.map((sch) => {
           // Determinar cuál se usó para secondPractice
-          let secondPractice = sch.SecondPractice || sch.SprintQualifying;
+          let secondPractice = sch.SecondPractice || sch.SprintQualifying || sch.SprintShootout;
           let secondPracticeType = sch.SecondPractice
             ? "SecondPractice"
             : sch.SprintQualifying
             ? "SprintQualifying"
+            : sch.SprintShootout
+            ? "SprintShootout"
             : null;
+
 
           // Determinar cuál se usó para thirdPractice
           let thirdPractice = sch.ThirdPractice || sch.Sprint;
