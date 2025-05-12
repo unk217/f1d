@@ -41,11 +41,12 @@ function Schedule() {
 
         const formatDate = (dateStr) => {
           if (!dateStr) return null;
-          const date = new Date(dateStr);
-          return date.toLocaleDateString("en-EN", {
+          const date = new Date(dateStr + "T00:00:00Z");
+          return new Intl.DateTimeFormat("en-EN", {
             month: "long",
             day: "numeric",
-          });
+            timeZone: "UTC",
+          }).format(date);
         };
 
         const formatTime = (timeStr) => {
