@@ -1,4 +1,4 @@
-import React from 'react';
+/* import React from 'react'; */
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import './App.css';
 import Schedule from './components/Schedule';
@@ -7,9 +7,7 @@ import NavBar from './components/NavBar';
 import TeamStandings from './components/TeamStandings';
 
 function App() {
-  {/*
- 
-*/}
+  
 
   return (
     
@@ -24,7 +22,6 @@ function App() {
     <Route path="/" element={<Navigate to="/schedule"/>}/>
       <Route path="/schedule" element={<Schedule/>}/>
       <Route path="/drivers" element ={<DriverSt/>}/>
-      <Route path='/schedule' element={<Schedule/>}/>
       <Route path='/teams' element={<TeamStandings/>}/>
       
     </Routes>
