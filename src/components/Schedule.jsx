@@ -10,7 +10,7 @@ function Schedule() {
   const [seasons, setSeasons] = useState([]);
   const [schedule, setSchedule] = useState([]);
   const [selectedRound, setSelectedRound] = useState(null);
-  const [selectedYear, setSelectedYear] = useState(2025); // Estado para el año seleccionado
+  const [selectedYear, setSelectedYear] = useState(2026); // Estado para el año seleccionado
 
   const [viewMode, setViewMode] = useState(null);
 
@@ -103,9 +103,6 @@ function Schedule() {
           };
         });
 
-        console.log(res);
-        console.log(schedule);
-
         setSchedule(schedule);
       } catch (error) {
         console.log("Error fetching data", error);
@@ -120,18 +117,23 @@ function Schedule() {
   };
 
   return (
-    <div className="p-4">
-      <div className="flex justify-start    p-3 bg font-bold">
-        <h1 className="text-xl px-2 text-zinc-200">Select season</h1>
-        <MySelect
-          options={seasons}
-          value={seasons.find((s) => s.value === selectedYear)}
-          onChange={handleYearChange}
-        />
+    <div className="w-full animate-in fade-in slide-in-from-bottom-4 duration-700 space-y-8">
+      <div className="relative z-50 flex flex-col sm:flex-row justify-between items-center bg-slate-900/40 backdrop-blur-md border border-slate-800/60 p-6 rounded-2xl shadow-xl gap-4">
+        <div className="text-center sm:text-left">
+          <h1 className="text-2xl md:text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-orange-500 tracking-tight">Race Schedule</h1>
+          <p className="text-slate-400 text-sm mt-1 font-medium">Select a season to view the full calendar</p>
+        </div>
+        <div className="w-full sm:w-64">
+          <MySelect
+            options={seasons}
+            value={seasons.find((s) => s.value === selectedYear)}
+            onChange={handleYearChange}
+          />
+        </div>
       </div>
 
       {!selectedRound ? (
-        <div className= "grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 gap-3 justify-items-center">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 justify-items-center">
           {schedule.map((sch) => (
             <SchCard
               key={sch.round}
@@ -141,40 +143,52 @@ function Schedule() {
           ))}
         </div>
       ) : (
-        <div>
-         <div className="flex justify-center lg:justify-start sm:justify-start">
-         <button
-            className="rounded-lg min-w-32 p-2 bg-red-500 text-white font-bold hover:bg-cyan-800"
-            onClick={() => {
-              setSelectedRound(null);
-              setViewMode(null);
-            }}
-          >
-            Back to races
-          </button>
+        <div className="space-y-6">
+          <div className="flex flex-wrap gap-3 justify-center sm:justify-start">
+            <button
+              className="px-6 py-2.5 rounded-xl font-semibold text-slate-300 bg-slate-800 border border-slate-700 hover:bg-slate-700 hover:text-white transition-all shadow-lg"
+              onClick={() => {
+                setSelectedRound(null);
+                setViewMode(null);
+              }}
+            >
+              &larr; Back to Calendar
+            </button>
 
-          <button
-            className="rounded-lg min-w-32 p-2 bg-blue-500 text-white font-bold hover:bg-cyan-800 ml-2"
-            onClick={() => setViewMode("qualifying")}
-          >
-            Qualifying
-          </button>
+            <button
+              className={`px-6 py-2.5 rounded-xl font-semibold transition-all shadow-lg border ${viewMode === "qualifying" ? "bg-cyan-600 border-cyan-500 text-white shadow-cyan-500/20" : "bg-slate-800 border-slate-700 text-slate-300 hover:bg-slate-700"}`}
+              onClick={() => setViewMode("qualifying")}
+            >
+              Qualifying Results
+            </button>
 
-          <button
-            className="rounded-lg min-w-32 p-2 bg-blue-500 text-white font-bold hover:bg-cyan-800 ml-2"
-            onClick={() => setViewMode("race")}
-          >
-            Race
-          </button>
-         </div>
+            <button
+              className={`px-6 py-2.5 rounded-xl font-semibold transition-all shadow-lg border ${viewMode === "race" ? "bg-blue-600 border-blue-500 text-white shadow-blue-500/20" : "bg-slate-800 border-slate-700 text-slate-300 hover:bg-slate-700"}`}
+              onClick={() => setViewMode("race")}
+            >
+              Race Results
+            </button>
+          </div>
 
-          {viewMode === "qualifying" && (
-            <QualifyingResults round={selectedRound} year={selectedYear} />
-          )}
+          <div className="bg-slate-900/40 backdrop-blur-md border border-slate-800/60 p-6 rounded-2xl shadow-xl w-full animate-in fade-in slide-in-from-bottom-2">
+            {viewMode === "qualifying" && (
+              <QualifyingResults round={selectedRound} year={selectedYear} />
+            )}
 
-          {viewMode === "race" && (
-            <RaceResults round={selectedRound} year={selectedYear} />
-          )}
+            {viewMode === "race" && (
+              <RaceResults round={selectedRound} year={selectedYear} />
+            )}
+
+            {!viewMode && (
+              <div className="text-center py-16 text-slate-500">
+                <svg className="mx-auto h-12 w-12 text-slate-600 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+                <p className="text-lg font-medium">Select an option above</p>
+                <p className="mt-1">View the Qualifying or Race results for this round.</p>
+              </div>
+            )}
+          </div>
         </div>
       )}
     </div>
