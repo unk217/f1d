@@ -39,19 +39,23 @@ function Schedule() {
         const apiUrl = `${import.meta.env.VITE_BASE_URL}${selectedYear}/races/`;
         const res = await axios.get(apiUrl);
 
-        const formatDate = (dateStr) => {
+        const formatDate = (dateStr, timeStr) => {
           if (!dateStr) return null;
-          const date = new Date(dateStr + "T00:00:00Z");
-          return new Intl.DateTimeFormat("en-EN", {
+          // Combine date and time to accurately determine local timezone date
+          const dateTimeStr = timeStr ? `${dateStr}T${timeStr}` : `${dateStr}T00:00:00Z`;
+          const date = new Date(dateTimeStr);
+          return new Intl.DateTimeFormat("en-US", {
             month: "long",
             day: "numeric",
-            timeZone: "UTC",
+            ...(!timeStr && { timeZone: "UTC" }),
           }).format(date);
         };
 
-        const formatTime = (timeStr) => {
+        const formatTime = (dateStr, timeStr) => {
           if (!timeStr) return null;
-          const date = new Date(`1970-01-01T${timeStr}`);
+          // Combine with dateStr for accurate DST offset, fallback if not provided
+          const dateTimeStr = dateStr ? `${dateStr}T${timeStr}` : `1970-01-01T${timeStr}`;
+          const date = new Date(dateTimeStr);
           return date.toLocaleTimeString("es-ES", {
             hour: "2-digit",
             minute: "2-digit",
@@ -83,22 +87,22 @@ function Schedule() {
             circuit: sch.Circuit.circuitName,
             country: sch.Circuit.Location.country,
 
-            firstPracticeDate: formatDate(sch.FirstPractice?.date),
-            firstPracticeTime: formatTime(sch.FirstPractice?.time),
+            firstPracticeDate: formatDate(sch.FirstPractice?.date, sch.FirstPractice?.time),
+            firstPracticeTime: formatTime(sch.FirstPractice?.date, sch.FirstPractice?.time),
 
-            secondPracticeDate: formatDate(secondPractice?.date),
-            secondPracticeTime: formatTime(secondPractice?.time),
+            secondPracticeDate: formatDate(secondPractice?.date, secondPractice?.time),
+            secondPracticeTime: formatTime(secondPractice?.date, secondPractice?.time),
             secondPracticeType,
 
-            thirdPracticeDate: formatDate(thirdPractice?.date),
-            thirdPracticeTime: formatTime(thirdPractice?.time),
+            thirdPracticeDate: formatDate(thirdPractice?.date, thirdPractice?.time),
+            thirdPracticeTime: formatTime(thirdPractice?.date, thirdPractice?.time),
             thirdPracticeType,
 
-            qualifyingDate: formatDate(sch.Qualifying?.date),
-            qualifyingTime: formatTime(sch.Qualifying?.time),
+            qualifyingDate: formatDate(sch.Qualifying?.date, sch.Qualifying?.time),
+            qualifyingTime: formatTime(sch.Qualifying?.date, sch.Qualifying?.time),
 
-            raceDate: formatDate(sch.date),
-            raceTime: formatTime(sch.time),
+            raceDate: formatDate(sch.date, sch.time),
+            raceTime: formatTime(sch.date, sch.time),
             round: sch.round,
           };
         });
