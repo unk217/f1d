@@ -19,7 +19,7 @@ const NavBar = () => {
         <div className='flex items-center justify-between h-16'>
           <div className='flex-shrink-0 flex items-center'>
             <Link to="/" className='text-2xl font-bold tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-orange-500 hover:from-red-400 hover:to-orange-400 transition-all'>
-              F1D
+              F1
             </Link>
           </div>
           <div className='flex space-x-2 sm:space-x-6'>

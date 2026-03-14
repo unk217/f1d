@@ -1,11 +1,21 @@
 import React from "react";
 
-function SchCard({ schedule, onClick }) {
+function SchCard({ schedule, onClick, isNext }) {
   return (
     <div
-      className="relative group w-full max-w-sm bg-slate-900/60 backdrop-blur-xl border border-slate-800/80 p-6 rounded-2xl shadow-xl hover:bg-slate-800/80 hover:border-cyan-500/50 hover:shadow-cyan-500/20 hover:-translate-y-1 transition-all duration-300 cursor-pointer overflow-hidden"
+      className={`relative group w-full max-w-sm backdrop-blur-xl border p-6 rounded-2xl transition-all duration-300 cursor-pointer overflow-hidden hover:-translate-y-1 ${
+        isNext
+          ? "bg-gradient-to-br from-slate-900/90 to-slate-800/90 border-orange-500/60 shadow-lg shadow-orange-500/20 hover:border-orange-400"
+          : "bg-slate-900/60 border-slate-800/80 shadow-xl hover:bg-slate-800/80 hover:border-cyan-500/50 hover:shadow-cyan-500/20"
+      }`}
       onClick={onClick}
     >
+      {isNext && (
+        <div className="absolute top-0 left-0 bg-gradient-to-r from-orange-600 to-orange-500 text-white text-[10px] sm:text-xs font-bold px-4 py-1.5 rounded-br-xl z-20 uppercase tracking-widest shadow-md">
+          Next Race
+        </div>
+      )}
+
       <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity pointer-events-none select-none">
         <span className="text-8xl font-black italic text-white">
           {schedule.round}

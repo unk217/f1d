@@ -13,6 +13,33 @@ function Schedule() {
   const [selectedYear, setSelectedYear] = useState(2026); // Estado para el año seleccionado
 
   const [viewMode, setViewMode] = useState(null);
+  const [nextRace, setNextRace] = useState(null);
+  const [timeLeft, setTimeLeft] = useState(null);
+
+  useEffect(() => {
+    if (!nextRace) return;
+
+    const updateTimer = () => {
+      const now = new Date();
+      const distance = nextRace.preciseRaceDate - now;
+
+      if (distance < 0) {
+        setTimeLeft(null);
+        return;
+      }
+
+      setTimeLeft({
+        days: Math.floor(distance / (1000 * 60 * 60 * 24)),
+        hours: Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+        minutes: Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
+        seconds: Math.floor((distance % (1000 * 60)) / 1000),
+      });
+    };
+
+    updateTimer();
+    const interval = setInterval(updateTimer, 1000);
+    return () => clearInterval(interval);
+  }, [nextRace]);
 
   useEffect(() => {
     const fetchSeasons = async () => {
@@ -62,7 +89,7 @@ function Schedule() {
           });
         };
 
-        const schedule = res.data.MRData.RaceTable.Races.map((sch) => {
+        const mappedSchedule = res.data.MRData.RaceTable.Races.map((sch) => {
           // Determinar cuál se usó para secondPractice
           let secondPractice = sch.SecondPractice || sch.SprintQualifying || sch.SprintShootout;
           let secondPracticeType = sch.SecondPractice
@@ -103,11 +130,17 @@ function Schedule() {
 
             raceDate: formatDate(sch.date, sch.time),
             raceTime: formatTime(sch.date, sch.time),
+            preciseRaceDate: new Date(`${sch.date}T${sch.time || "00:00:00Z"}`),
             round: sch.round,
           };
         });
 
-        setSchedule(schedule);
+        const now = new Date();
+        const upcomingRaces = mappedSchedule.filter((r) => r.preciseRaceDate > now);
+        const nextR = upcomingRaces.length > 0 ? upcomingRaces[0] : null;
+
+        setNextRace(nextR);
+        setSchedule(mappedSchedule);
       } catch (error) {
         console.log("Error fetching data", error);
       }
@@ -137,14 +170,51 @@ function Schedule() {
       </div>
 
       {!selectedRound ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 justify-items-center">
-          {schedule.map((sch) => (
-            <SchCard
-              key={sch.round}
-              schedule={sch}
-              onClick={() => setSelectedRound(sch.round)}
-            />
-          ))}
+        <div className="space-y-8">
+          {nextRace && timeLeft && (
+            <div className="w-full bg-slate-900/60 backdrop-blur-md border border-orange-500/40 p-6 sm:p-8 rounded-2xl shadow-xl shadow-orange-500/10 flex flex-col items-center justify-center relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-64 h-64 bg-orange-500/10 rounded-full blur-3xl pointer-events-none -translate-y-1/2 translate-x-1/3"></div>
+              <div className="absolute bottom-0 left-0 w-64 h-64 bg-red-500/10 rounded-full blur-3xl pointer-events-none translate-y-1/2 -translate-x-1/3"></div>
+              
+              <p className="text-orange-400 font-semibold uppercase tracking-widest text-sm mb-2 z-10 flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-orange-500 animate-pulse"></span> Next Race
+              </p>
+              <h2 className="text-3xl md:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white to-slate-300 mb-8 text-center z-10">{nextRace.rname}</h2>
+              
+              <div className="flex gap-3 sm:gap-6 md:gap-8 text-center z-10">
+                <div className="flex flex-col items-center w-16 sm:w-20">
+                  <span className="text-4xl sm:text-5xl md:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-slate-400">{timeLeft.days}</span>
+                  <span className="text-slate-500 text-[10px] sm:text-xs md:text-sm uppercase tracking-wider mt-2 font-medium">Days</span>
+                </div>
+                <span className="text-3xl sm:text-4xl md:text-5xl font-black text-slate-700/50 mt-1">:</span>
+                <div className="flex flex-col items-center w-16 sm:w-20">
+                  <span className="text-4xl sm:text-5xl md:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-slate-400">{timeLeft.hours.toString().padStart(2, '0')}</span>
+                  <span className="text-slate-500 text-[10px] sm:text-xs md:text-sm uppercase tracking-wider mt-2 font-medium">Hours</span>
+                </div>
+                <span className="text-3xl sm:text-4xl md:text-5xl font-black text-slate-700/50 mt-1">:</span>
+                <div className="flex flex-col items-center w-16 sm:w-20">
+                  <span className="text-4xl sm:text-5xl md:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-slate-400">{timeLeft.minutes.toString().padStart(2, '0')}</span>
+                  <span className="text-slate-500 text-[10px] sm:text-xs md:text-sm uppercase tracking-wider mt-2 font-medium">Mins</span>
+                </div>
+                <span className="text-3xl sm:text-4xl md:text-5xl font-black text-slate-700/50 mt-1">:</span>
+                <div className="flex flex-col items-center w-16 sm:w-20">
+                  <span className="text-4xl sm:text-5xl md:text-6xl font-black text-orange-500">{timeLeft.seconds.toString().padStart(2, '0')}</span>
+                  <span className="text-slate-500 text-[10px] sm:text-xs md:text-sm uppercase tracking-wider mt-2 font-medium">Secs</span>
+                </div>
+              </div>
+            </div>
+          )}
+
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 justify-items-center">
+            {schedule.map((sch) => (
+              <SchCard
+                key={sch.round}
+                schedule={sch}
+                isNext={nextRace && nextRace.round === sch.round}
+                onClick={() => setSelectedRound(sch.round)}
+              />
+            ))}
+          </div>
         </div>
       ) : (
         <div className="space-y-6">
