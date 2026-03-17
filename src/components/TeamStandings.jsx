@@ -31,7 +31,7 @@ function TeamStandings() {
         header: "Wins",
         accessorKey: "wins",
         cell: ({ getValue }) => (
-          <span className="text-amber-200">{getValue()}</span>
+          <span className="text-amber-300">{getValue()}</span>
         ),
       },
     ],
