@@ -70,7 +70,7 @@ function QualifyingResults({ round, year }) {
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm">
                     <div className="flex items-center">
-                      <img
+                      {/*<img
                         src={`https://media.formula1.com/image/upload/f_auto,c_limit,q_auto,w_1320/content/dam/fom-website/drivers/${year}Drivers/${result.Driver.familyName}`}
                         alt={result.Driver.familyName}
                         className="w-10 h-10 rounded-full object-cover border-2 border-slate-700/50 mr-3"
@@ -78,7 +78,7 @@ function QualifyingResults({ round, year }) {
                           e.target.src = "https://media.formula1.com/image/upload/f_auto,c_limit,q_auto,w_1320/content/dam/fom-website/drivers/2024Drivers/helmet.png";
                           e.target.className = "w-10 h-10 rounded-full object-cover mr-3 opacity-50";
                         }}
-                      />
+                      />*/}
                       <span className="font-semibold text-slate-200">{result.Driver.givenName} {result.Driver.familyName}</span>
                     </div>
                   </td>

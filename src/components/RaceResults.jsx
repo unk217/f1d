@@ -94,7 +94,7 @@ function RaceResults({ round, year }) {
                     </td>
                     <td className="px-4 py-3 whitespace-nowrap text-sm">
                       <div className="flex items-center">
-                        <img
+                        {/*<img
                           src={`https://media.formula1.com/image/upload/f_auto,c_limit,q_auto,w_1320/content/dam/fom-website/drivers/${year}Drivers/${result.Driver.familyName}`}
                           alt={result.Driver.familyName}
                           className="w-8 h-8 rounded-full object-cover border-2 border-slate-700/50 mr-3"
@@ -102,7 +102,7 @@ function RaceResults({ round, year }) {
                             e.target.src = "https://media.formula1.com/image/upload/f_auto,c_limit,q_auto,w_1320/content/dam/fom-website/drivers/2024Drivers/helmet.png";
                             e.target.className = "w-8 h-8 rounded-full object-cover mr-3 opacity-50";
                           }}
-                        />
+                        />*/}
                         <div>
                           <p className="font-semibold text-slate-200">{result.Driver.givenName} {result.Driver.familyName}</p>
                           <p className="text-xs text-slate-500">{result.status}</p>
