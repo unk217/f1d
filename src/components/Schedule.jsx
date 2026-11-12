@@ -1,6 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
-import Select from "react-select";
+import { useEffect, useState } from "react";
 import SchCard from "./SchCard";
 import RaceResults from "./RaceResults";
 import MySelect from "./MySelect";

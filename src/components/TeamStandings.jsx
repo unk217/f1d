@@ -1,8 +1,7 @@
-import React, { useMemo, useState, useEffect } from "react";
+import { useMemo, useState, useEffect } from "react";
 import axios from "axios";
 import DynaTable from "./DynaTable";
 import MySelect from "./MySelect";
-import { Input } from "./UI/Input";
 
 function TeamStandings() {
   
@@ -42,7 +41,6 @@ function TeamStandings() {
   const [selectedYear, setSelectedYear] = useState(2026);
   const [standings, setStandings] = useState([]);
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchSeasons = async () => {
@@ -64,7 +62,6 @@ function TeamStandings() {
 
   useEffect(() => {
     const fetchStandings = async () => {
-      setLoading(true);
       setError("");
 
       try {
@@ -92,8 +89,6 @@ function TeamStandings() {
         setError("Error fetching data");
         setStandings([]);
         console.error("Error fetching standings:", error);
-      } finally {
-        setLoading(false);
       }
     };
     

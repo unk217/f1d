@@ -2,7 +2,7 @@
 
 @import "tailwindcss";
 @plugin "daisyui";
-@config "../tailwind.config.js";
+@plugin "@tailwindcss/forms";
 
 body {
   @apply min-h-screen bg-slate-950 bg-gradient-to-tr from-slate-950 via-slate-900 to-slate-950 text-slate-200 font-['Outfit'];

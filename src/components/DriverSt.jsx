@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import axios from 'axios';
 import DynaTable from './DynaTable';
 import MySelect from './MySelect';
@@ -51,9 +51,7 @@ function DriverSt() {
   const [selectedYear, setSelectedYear] = useState(2026);
   const [seasons, setSeasons] = useState([]);
   const [standings, setStandings] = useState([]);
-  const [season, setSeason] = useState('');
   const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchSeasons = async () => {
@@ -75,7 +73,6 @@ function DriverSt() {
 
   useEffect(() => {
     const fetchStandings = async () => {
-      setLoading(true);
       setError('');
       try {
         const response = await axios.get(`${import.meta.env.VITE_BASE_URL}${selectedYear}/driverstandings/`);
@@ -92,17 +89,13 @@ function DriverSt() {
             wins: driver.wins,
           }));
           setStandings(parsedStandings);
-          setSeason(response.data.MRData.StandingsTable.season);
         } else {
           setStandings([]);
-          setSeason('');
           setError('No driver standings available for this season.');
         }
       } catch (err) {
         setError('Error fetching data');
         console.error(err);
-      } finally {
-        setLoading(false);
       }
     };
 

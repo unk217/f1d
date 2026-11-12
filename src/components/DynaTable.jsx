@@ -1,6 +1,8 @@
 import { flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table';
 
 function DynaTable({columns, data}) {
+  // No usamos React Compiler; TanStack Table v8 no es memoizable por diseño.
+  // eslint-disable-next-line react-hooks/incompatible-library
   const table = useReactTable({
     data, 
     columns,
