@@ -4,7 +4,7 @@ function SchCard({ schedule, onClick, isNext }) {
     <div
       className={`relative group w-full max-w-sm backdrop-blur-xl border p-6 rounded-2xl transition-all duration-300 cursor-pointer overflow-hidden hover:-translate-y-1 ${
         isNext
-          ? "bg-gradient-to-br from-slate-900/90 to-slate-800/90 border-orange-500/60 shadow-lg shadow-orange-500/20 hover:border-orange-400"
+          ? "pt-11 bg-gradient-to-br from-slate-900/90 to-slate-800/90 border-orange-500/60 shadow-lg shadow-orange-500/20 hover:border-orange-400"
           : "bg-slate-900/60 border-slate-800/80 shadow-xl hover:bg-slate-800/80 hover:border-cyan-500/50 hover:shadow-cyan-500/20"
       }`}
       onClick={onClick}
