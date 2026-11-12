@@ -38,7 +38,7 @@ function TeamStandings() {
   );
 
   const [seasons, setSeasons] = useState([]);
-  const [selectedYear, setSelectedYear] = useState(2026);
+  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
   const [standings, setStandings] = useState([]);
   const [error, setError] = useState("");
 

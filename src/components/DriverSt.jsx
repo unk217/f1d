@@ -48,7 +48,7 @@ function DriverSt() {
     [],
   );
 
-  const [selectedYear, setSelectedYear] = useState(2026);
+  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
   const [seasons, setSeasons] = useState([]);
   const [standings, setStandings] = useState([]);
   const [error, setError] = useState('');
