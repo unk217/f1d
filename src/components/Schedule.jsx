@@ -131,6 +131,7 @@ function Schedule() {
             raceTime: formatTime(sch.date, sch.time),
             preciseRaceDate: new Date(`${sch.date}T${sch.time || "00:00:00Z"}`),
             round: sch.round,
+            hasSprint: Boolean(sch.Sprint),
           };
         });
 
@@ -171,10 +172,7 @@ function Schedule() {
       {!selectedRound ? (
         <div className="space-y-8">
           {nextRace && timeLeft && (
-            <div className="w-full bg-slate-900/60 backdrop-blur-md border border-orange-500/40 p-6 sm:p-8 rounded-2xl shadow-xl shadow-orange-500/10 flex flex-col items-center justify-center relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-64 h-64 bg-orange-500/10 rounded-full blur-3xl pointer-events-none -translate-y-1/2 translate-x-1/3"></div>
-              <div className="absolute bottom-0 left-0 w-64 h-64 bg-red-500/10 rounded-full blur-3xl pointer-events-none translate-y-1/2 -translate-x-1/3"></div>
-              
+            <div className="w-full bg-slate-900/60 backdrop-blur-md border border-orange-500/40 p-6 sm:p-8 rounded-2xl flex flex-col items-center justify-center relative overflow-hidden">
               <p className="text-orange-400 font-semibold uppercase tracking-widest text-sm mb-2 z-10 flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-orange-500 animate-pulse"></span> Next Race
               </p>
@@ -235,6 +233,15 @@ function Schedule() {
               Qualifying Results
             </button>
 
+            {schedule.find((r) => r.round === selectedRound)?.hasSprint && (
+              <button
+                className={`px-6 py-2.5 rounded-xl font-semibold transition-all shadow-lg border ${viewMode === "sprint" ? "bg-amber-600 border-amber-500 text-white shadow-amber-500/20" : "bg-slate-800 border-slate-700 text-slate-300 hover:bg-slate-700"}`}
+                onClick={() => setViewMode("sprint")}
+              >
+                Sprint Results
+              </button>
+            )}
+
             <button
               className={`px-6 py-2.5 rounded-xl font-semibold transition-all shadow-lg border ${viewMode === "race" ? "bg-blue-600 border-blue-500 text-white shadow-blue-500/20" : "bg-slate-800 border-slate-700 text-slate-300 hover:bg-slate-700"}`}
               onClick={() => setViewMode("race")}
@@ -250,6 +257,10 @@ function Schedule() {
 
             {viewMode === "race" && (
               <RaceResults round={selectedRound} year={selectedYear} />
+            )}
+
+            {viewMode === "sprint" && (
+              <RaceResults key="sprint" type="sprint" round={selectedRound} year={selectedYear} />
             )}
 
             {!viewMode && (

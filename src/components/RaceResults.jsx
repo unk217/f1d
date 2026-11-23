@@ -2,7 +2,8 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import PositionChart from "./PositionChart";
 
-function RaceResults({ round, year }) {
+function RaceResults({ round, year, type = "race" }) {
+  const isSprint = type === "sprint";
   const [raceResults, setRaceResults] = useState(null);
   const [fastestLap, setFastestLap] = useState(null);
   const [raceName, setRaceName] = useState("");
@@ -13,11 +14,11 @@ function RaceResults({ round, year }) {
   useEffect(() => {
     const fetchRaceResults = async () => {
       try {
-        const apiUrl = `${import.meta.env.VITE_BASE_URL}${year}/${round}/results`;
+        const apiUrl = `${import.meta.env.VITE_BASE_URL}${year}/${round}/${isSprint ? "sprint" : "results"}`;
         const res = await axios.get(apiUrl);
         const raceData = res.data.MRData.RaceTable.Races[0];
 
-        const results = raceData?.Results || [];
+        const results = (isSprint ? raceData?.SprintResults : raceData?.Results) || [];
 
         const fastest = results.find(
           (r) => r.FastestLap && r.FastestLap.rank === "1"
@@ -37,8 +38,8 @@ function RaceResults({ round, year }) {
 
         setRaceResults(results);
         setRaceName(raceData?.raceName || "Unknown Race");
-        setCountry(raceData.Circuit.Location.country || "Unknown Country");
-        setCircuit(raceData.Circuit.circuitName || "Unknown Circuit");
+        setCountry(raceData?.Circuit.Location.country || "Unknown Country");
+        setCircuit(raceData?.Circuit.circuitName || "Unknown Circuit");
       } catch (error) {
         console.log("Error fetching race results", error);
       } finally {
@@ -47,7 +48,7 @@ function RaceResults({ round, year }) {
     };
 
     fetchRaceResults();
-  }, [round, year]);
+  }, [round, year, isSprint]);
 
   if (loading) {
     return (
@@ -63,19 +64,19 @@ function RaceResults({ round, year }) {
   if (!raceResults || raceResults.length === 0) {
     return (
       <div className="text-center p-8 bg-slate-900/30 rounded-xl border border-slate-800/50">
-        <p className="text-slate-400 font-medium text-lg">No results found for this race.</p>
+        <p className="text-slate-400 font-medium text-lg">No {isSprint ? "sprint " : ""}results found for this race.</p>
       </div>
     );
   }
 
   return (
     <div className="mt-8 animate-in fade-in slide-in-from-bottom-2 duration-500">
-      <h2 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-500 mb-6 drop-shadow-sm">
-        {raceName} - Race
+      <h2 className={`text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r ${isSprint ? "from-amber-400 to-orange-500" : "from-blue-400 to-indigo-500"} mb-6 drop-shadow-sm`}>
+        {raceName} - {isSprint ? "Sprint" : "Race"}
       </h2>
 
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
-        <div className="overflow-x-auto pb-4">
+      <div className={`grid grid-cols-1 gap-6 ${isSprint ? "xl:grid-cols-3" : "xl:grid-cols-2"}`}>
+        <div className={`overflow-x-auto pb-4 ${isSprint ? "xl:col-span-2" : ""}`}>
           <div className="min-w-[560px] w-full rounded-2xl overflow-hidden border border-slate-800/60 bg-slate-900/40 backdrop-blur-xl shadow-2xl">
             <table className="w-full text-left border-collapse">
               <thead>
@@ -126,11 +127,13 @@ function RaceResults({ round, year }) {
           </div>
         </div>
 
-        <div className="pb-4">
-          <PositionChart year={year} round={round} results={raceResults} />
-        </div>
+        {!isSprint && (
+          <div className="pb-4">
+            <PositionChart year={year} round={round} results={raceResults} />
+          </div>
+        )}
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 xl:col-span-2">
+        <div className={isSprint ? "space-y-6" : "grid grid-cols-1 md:grid-cols-2 gap-6 xl:col-span-2"}>
           <div className="rounded-2xl border border-slate-800/60 bg-slate-900/50 backdrop-blur-xl p-6 shadow-xl flex flex-col items-center">
             <h3 className="text-lg font-bold text-white mb-2 text-center">{circuit}</h3>
             <p className="text-slate-400 text-sm font-medium uppercase tracking-widest mb-4">{country}</p>
