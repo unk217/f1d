@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import PositionChart from "./PositionChart";
 
 function RaceResults({ round, year }) {
   const [raceResults, setRaceResults] = useState(null);
@@ -73,9 +74,9 @@ function RaceResults({ round, year }) {
         {raceName} - Race
       </h2>
 
-      <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
-        <div className="xl:col-span-2 overflow-x-auto pb-4">
-          <div className="min-w-[600px] w-full rounded-2xl overflow-hidden border border-slate-800/60 bg-slate-900/40 backdrop-blur-xl shadow-2xl">
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+        <div className="overflow-x-auto pb-4">
+          <div className="min-w-[560px] w-full rounded-2xl overflow-hidden border border-slate-800/60 bg-slate-900/40 backdrop-blur-xl shadow-2xl">
             <table className="w-full text-left border-collapse">
               <thead>
                 <tr className="bg-slate-800/80 border-b border-slate-700/50">
@@ -125,7 +126,11 @@ function RaceResults({ round, year }) {
           </div>
         </div>
 
-        <div className="space-y-6">
+        <div className="pb-4">
+          <PositionChart year={year} round={round} results={raceResults} />
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 xl:col-span-2">
           <div className="rounded-2xl border border-slate-800/60 bg-slate-900/50 backdrop-blur-xl p-6 shadow-xl flex flex-col items-center">
             <h3 className="text-lg font-bold text-white mb-2 text-center">{circuit}</h3>
             <p className="text-slate-400 text-sm font-medium uppercase tracking-widest mb-4">{country}</p>
